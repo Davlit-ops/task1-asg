@@ -31,7 +31,7 @@ task1-asg/
         │   ├── gateways.tf
         │   ├── route_tables.tf
         │   ├── variables.tf
-        │   └── outputs.tf        
+        │   └── outputs.tf
         ├── compute/         # EC2, ASG, ALB, Security Groups, and IAM
         │   ├── security_groups.tf
         │   ├── bastion.tf
