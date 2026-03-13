@@ -1,0 +1,32 @@
+# OS & Editor configurations
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Terraform core
+**/.terraform/*
+.terraformrc
+terraform.rc
+
+# Terraform state
+*.tfstate
+*.tfstate.*
+*tfplan*
+
+# Terraform variables & overrides
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform logs
+crash.log
+crash.*.log
+
+# Packer
+packer_cache/
+*.pkrvars.hcl
+*.pkrvars.json
