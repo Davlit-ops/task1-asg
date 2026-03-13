@@ -1,7 +1,7 @@
 ### Project Structure
 
 ```text
-ocg1-task1/
+task1-asg/
 ├── .gitignore
 ├── README.md
 │

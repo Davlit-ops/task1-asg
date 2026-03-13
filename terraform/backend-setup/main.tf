@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "terraform_state" {
 
   tags = {
     Name        = "Terraform State Storage"
-    Environment = "Task1"
+    Environment = var.environment
   }
 }
 
@@ -50,6 +50,6 @@ resource "aws_dynamodb_table" "terraform_locks" {
 
   tags = {
     Name        = "Terraform State Locking"
-    Environment = "Task1"
+    Environment = var.environment
   }
 }

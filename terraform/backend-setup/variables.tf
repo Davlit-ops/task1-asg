@@ -9,3 +9,9 @@ variable "project_name" {
   type        = string
   default     = "task1-asg"
 }
+
+variable "environment" {
+  description = "The environment name"
+  type        = string
+  default     = "dev"
+}
