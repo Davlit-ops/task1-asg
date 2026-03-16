@@ -30,3 +30,15 @@ crash.*.log
 packer_cache/
 *.pkrvars.hcl
 *.pkrvars.json
+
+# Private and public keys
+*.pem
+*.key
+*.pub
+
+# Environment files
+.env
+.env.local
+
+# Ignore generated SSH config
+ssh_config

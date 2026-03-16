@@ -34,6 +34,7 @@ task1-asg/
         │   └── outputs.tf
         ├── compute/         # EC2, ASG, ALB, Security Groups, and IAM
         │   ├── security_groups.tf
+        │   ├── key-pair.tf
         │   ├── bastion.tf
         │   ├── alb.tf
         │   ├── asg.tf
