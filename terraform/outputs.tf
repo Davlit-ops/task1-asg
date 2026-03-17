@@ -10,5 +10,5 @@ output "alb_dns_name" {
 
 output "db_endpoint" {
   description = "The connection endpoint for the database"
-  value       = module.database.db_instance_endpoint
+  value       = module.database.db_endpoint
 }

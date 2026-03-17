@@ -17,6 +17,10 @@ module "compute" {
   private_subnet_ids = module.networking.app_private_subnet_ids
 
   app_port = var.app_port
+
+  db_endpoint = module.database.db_endpoint
+  db_password = module.database.db_password
+
 }
 
 module "database" {
@@ -27,5 +31,5 @@ module "database" {
 
   vpc_id                = module.networking.vpc_id
   db_private_subnet_ids = module.networking.db_private_subnet_ids
-  app_sg_id             = module.compute.app_sg_id
+  vpc_cidr              = var.vpc_cidr
 }

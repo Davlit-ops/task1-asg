@@ -16,7 +16,6 @@ variable "db_private_subnet_ids" {
   type        = list(string)
 }
 
-variable "app_sg_id" {
-  description = "Security Group ID of the LLM application to allow access to RDS"
-  type        = string
+variable "vpc_cidr" {
+  type = string
 }

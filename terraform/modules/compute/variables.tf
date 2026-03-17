@@ -31,3 +31,14 @@ variable "app_port" {
   type        = number
   default     = 80 # need to update
 }
+
+variable "db_endpoint" {
+  description = "RDS Database endpoint for OpenWebUI"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Database password for OpenWebUI"
+  type        = string
+  sensitive   = true
+}

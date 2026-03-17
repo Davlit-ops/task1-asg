@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Allow Ollama to accept connections from Docker
+sudo mkdir -p /etc/systemd/system/ollama.service.d
+echo -e "[Service]\nEnvironment=\"OLLAMA_HOST=0.0.0.0\"" | sudo tee /etc/systemd/system/ollama.service.d/override.conf
+sudo systemctl daemon-reload
+sudo systemctl restart ollama
+
+# Start the OpenWebUI container
+docker run -d -p 80:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -e DATABASE_URL="postgresql://postgres:${db_password}@${db_endpoint}:5432/llmdb" \
+  -e OLLAMA_BASE_URL="http://host.docker.internal:11434" \
+  -e WEBUI_SECRET_KEY="my-super-secret-key-for-ha-cluster" \
+  --name open-webui \
+  --restart always \
+  ghcr.io/open-webui/open-webui:main

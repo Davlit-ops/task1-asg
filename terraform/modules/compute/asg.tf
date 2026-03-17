@@ -1,11 +1,11 @@
 # Golden AMI built by Packer
 data "aws_ami" "llm_image" {
   most_recent = true
-  owners      = ["099720109477"] # owners      = ["self"]
+  owners      = ["self"] # owners      = ["099720109477"]
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"] # values = ["llm-ubuntu-image-*"]
+    values = ["task1-llm-ami-*"] # values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]  next step values = ["${var.project_name}-llm-ami-*"]
   }
 }
 
@@ -21,6 +21,11 @@ resource "aws_launch_template" "app" {
   key_name = aws_key_pair.main.key_name
 
   vpc_security_group_ids = [aws_security_group.app.id]
+
+  user_data = base64encode(templatefile("${path.module}/userdata.sh.tftpl", {
+    db_endpoint = var.db_endpoint
+    db_password = var.db_password
+  }))
 
   iam_instance_profile {
     name = aws_iam_instance_profile.app_profile.name
