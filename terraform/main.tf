@@ -18,3 +18,14 @@ module "compute" {
 
   app_port = var.app_port
 }
+
+module "database" {
+  source = "./modules/database"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  vpc_id                = module.networking.vpc_id
+  db_private_subnet_ids = module.networking.db_private_subnet_ids
+  app_sg_id             = module.compute.app_sg_id
+}
