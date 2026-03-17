@@ -35,7 +35,7 @@ source "amazon-ebs" "ubuntu" {
   # fix  for the memory
   launch_block_device_mappings {
     device_name           = "/dev/sda1"
-    volume_size           = 20
+    volume_size           = 30
     volume_type           = "gp3"
     delete_on_termination = true
   }
@@ -65,13 +65,13 @@ build {
     "source.amazon-ebs.ubuntu"
   ]
 
-  # Step 1: Install Docker
-  provisioner "shell" {
-    script = "scripts/install_docker.sh"
+  provisioner "file" {
+    source      = "open-webui.service"
+    destination = "/tmp/open-webui.service"
   }
 
-  # Step 2: Install Ollama, pull TinyLlama, and pull OpenWebUI image
+  # Install Ollama, pull TinyLlama, and pull OpenWebUI image
   provisioner "shell" {
-    script = "scripts/setup_llm.sh"
+    script = "setup_llm.sh"
   }
 }

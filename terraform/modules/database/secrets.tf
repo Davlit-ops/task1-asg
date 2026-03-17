@@ -1,8 +1,7 @@
 # Random password
 resource "random_password" "db_password" {
-  length           = 16
-  special          = false
-  override_special = "!#$%&*()-_=+[]{}<>:?"
+  length  = 16
+  special = false
 }
 
 # Store the password in SSM

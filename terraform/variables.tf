@@ -25,5 +25,5 @@ variable "vpc_cidr" {
 variable "app_port" {
   description = "Port used by the LLM application (e.g., 80 for WebUI, 11434 for Ollama)"
   type        = number
-  default     = 80
+  default     = 8080
 }

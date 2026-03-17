@@ -29,7 +29,7 @@ variable "vpc_cidr" {
 variable "app_port" {
   description = "Port on which the LLM application runs"
   type        = number
-  default     = 80 # need to update
+  default     = 8080
 }
 
 variable "db_endpoint" {

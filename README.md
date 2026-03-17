@@ -5,11 +5,10 @@ task1-asg/
 ├── .gitignore
 ├── README.md
 │
-├── packer/                  #Golden Image build
-│   ├── llm-ami.pkr.hcl      # Packer template for Ubuntu + Docker + LLM
-│   └── scripts/             
-│       ├── install_docker.sh
-│       └── setup_llm.sh     # Script to pull models and prepare OpenWebUI
+├── packer/                      # Golden Image build
+│   ├── llm-ami.pkr.hcl
+│   ├── open-webui.service       # Systemd
+│   └── setup_llm.sh             # Model setup script
 │
 └── terraform/
     ├── backend-setup/       # ONE-TIME SETUP FOR REMOTE STATE RESOURCES
