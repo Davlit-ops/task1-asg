@@ -42,3 +42,18 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "bastion_sg_id" {
+  description = "ID of the Bastion Security Group from networking module"
+  type        = string
+}
+
+variable "alb_sg_id" {
+  description = "ID of the ALB Security Group from networking module"
+  type        = string
+}
+
+variable "app_sg_id" {
+  description = "ID of the Application Security Group from networking module"
+  type        = string
+}

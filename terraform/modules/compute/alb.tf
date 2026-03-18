@@ -4,14 +4,13 @@ resource "aws_lb" "main" {
   internal           = false # for internet
   load_balancer_type = "application"
 
-  security_groups = [aws_security_group.alb.id]
+  security_groups = [var.alb_sg_id]
 
   # Reachable from the internet
   subnets = var.public_subnet_ids
 
   tags = {
-    Name        = "${var.project_name}-alb-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-alb-${var.environment}"
   }
 }
 
@@ -22,18 +21,24 @@ resource "aws_lb_target_group" "app" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 
+  # STICKY SESSIONS
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = 86400 # Прив'язуємо сесію на 1 день (у секундах)
+    enabled         = true
+  }
+
   health_check {
-    path                = "/" # need to check 
+    path                = "/" # OpenWebUI root path
     healthy_threshold   = 2
     unhealthy_threshold = 2
-    timeout             = 3
+    timeout             = 5
     interval            = 30
     matcher             = "200" # OK
   }
 
   tags = {
-    Name        = "${var.project_name}-tg-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-tg-${var.environment}"
   }
 }
 

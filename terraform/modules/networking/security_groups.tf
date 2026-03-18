@@ -6,7 +6,7 @@ data "http" "myip" {
 resource "aws_security_group" "bastion" {
   name        = "${var.project_name}-bastion-sg-${var.environment}"
   description = "Allow SSH from my dynamic IP"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port = 22
@@ -40,8 +40,7 @@ resource "aws_security_group" "bastion" {
   }
 
   tags = {
-    Name        = "${var.project_name}-bastion-sg-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-bastion-sg-${var.environment}"
   }
 }
 
@@ -49,7 +48,7 @@ resource "aws_security_group" "bastion" {
 resource "aws_security_group" "alb" {
   name        = "${var.project_name}-alb-sg-${var.environment}"
   description = "Allow HTTP traffic from the internet to ALB"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port   = 80
@@ -66,8 +65,7 @@ resource "aws_security_group" "alb" {
   }
 
   tags = {
-    Name        = "${var.project_name}-alb-sg-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-alb-sg-${var.environment}"
   }
 }
 
@@ -75,7 +73,7 @@ resource "aws_security_group" "alb" {
 resource "aws_security_group" "app" {
   name        = "${var.project_name}-app-sg-${var.environment}"
   description = "Allow SSH only from Bastion and HTTP from ALB"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.main.id
 
   # SSH only from Bastion
   ingress {
@@ -101,7 +99,25 @@ resource "aws_security_group" "app" {
   }
 
   tags = {
-    Name        = "${var.project_name}-app-sg-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-app-sg-${var.environment}"
+  }
+}
+
+# Security group for the database
+resource "aws_security_group" "rds" {
+  name        = "${var.project_name}-rds-sg-${var.environment}"
+  description = "Allow inbound traffic from LLM nodes on 5432"
+  vpc_id      = aws_vpc.main.id
+
+  # From llm
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.app.id]
+  }
+
+  tags = {
+    Name = "${var.project_name}-rds-sg-${var.environment}"
   }
 }

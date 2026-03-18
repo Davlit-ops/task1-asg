@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive
+
 echo "--- Configuring OpenWebUI Environment ---"
 
 # Environment variables for the database and the secret key
@@ -12,17 +14,22 @@ EOF
 chown ubuntu:ubuntu /opt/open-webui/.env
 chmod 600 /opt/open-webui/.env
 
+echo "--- Restarting OpenWebUI Service ---"
+systemctl restart open-webui
+
 echo "--- Initializing Vector DB Extension ---"
+
+while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+  echo "Waiting for apt lock..."
+  sleep 5
+done
+
 # Install PostgreSQL client
-apt-get update
-apt-get install -y postgresql-client
+apt-get update -yq || true
+apt-get install -yq postgresql-client || true
 
 # Connect to RDS and activate pgvector
 export PGPASSWORD="${db_password}"
-psql -h ${db_endpoint} -U postgres -d llmdb -c "CREATE EXTENSION IF NOT EXISTS vector;"
-
-echo "--- Restarting OpenWebUI Service ---"
-# Restart
-systemctl restart open-webui
+psql -h ${db_endpoint} -U postgres -d llmdb -c "CREATE EXTENSION IF NOT EXISTS vector;" || true
 
 echo "--- Setup Complete ---"

@@ -17,8 +17,7 @@ resource "aws_iam_role" "app_role" {
   })
 
   tags = {
-    Name        = "${var.project_name}-iam-role-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-iam-role-${var.environment}"
   }
 }
 

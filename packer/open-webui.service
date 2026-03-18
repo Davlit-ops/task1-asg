@@ -1,13 +1,19 @@
 [Unit]
 Description=OpenWebUI Service
-After=network.target ollama.service
+After=network-online.target ollama.service
+Wants=network-online.target
 
 [Service]
 Type=simple
 User=ubuntu
+Group=ubuntu
 WorkingDirectory=/opt/open-webui
 ExecStart=/opt/open-webui/venv/bin/open-webui serve
+
+# Prevent fast restarts
 Restart=always
+RestartSec=10
+SyslogIdentifier=open-webui
 
 # Basic
 Environment=OLLAMA_BASE_URL=http://127.0.0.1:11434

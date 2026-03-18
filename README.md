@@ -26,18 +26,19 @@ task1-asg/
     └── modules/
         ├── networking/      # VPC, Subnets, Gateways, and Route Tables
         │   ├── vpc.tf
+        │   ├── security_groups.tf
         │   ├── subnets.tf
         │   ├── gateways.tf
         │   ├── route_tables.tf
         │   ├── variables.tf
         │   └── outputs.tf
-        ├── compute/         # EC2, ASG, ALB, Security Groups, and IAM
-        │   ├── security_groups.tf
+        ├── compute/         # EC2, ASG, ALB, and IAM
         │   ├── key-pair.tf
         │   ├── bastion.tf
         │   ├── alb.tf
         │   ├── asg.tf
         │   ├── iam.tf
+        │   ├── userdata.sh.tftpl
         │   ├── variables.tf
         │   └── outputs.tf
         └── database/        # RDS PostgreSQL and SSM Secrets

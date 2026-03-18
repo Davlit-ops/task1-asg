@@ -16,11 +16,11 @@ resource "aws_launch_template" "app" {
   image_id    = data.aws_ami.llm_image.id
 
   # large for llm but need to test
-  instance_type = "t3.large"
+  instance_type = "c6i.xlarge"
 
   key_name = aws_key_pair.main.key_name
 
-  vpc_security_group_ids = [aws_security_group.app.id]
+  vpc_security_group_ids = [var.app_sg_id]
 
   user_data = base64encode(templatefile("${path.module}/userdata.sh.tftpl", {
     db_endpoint = var.db_endpoint
@@ -35,8 +35,7 @@ resource "aws_launch_template" "app" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name        = "${var.project_name}-llm-node-${var.environment}"
-      Environment = var.environment
+      Name = "${var.project_name}-llm-node-${var.environment}"
     }
   }
 
@@ -61,7 +60,7 @@ resource "aws_autoscaling_group" "app" {
 
   launch_template {
     id      = aws_launch_template.app.id
-    version = "$Latest"
+    version = aws_launch_template.app.latest_version
   }
 
   # replacing during updates

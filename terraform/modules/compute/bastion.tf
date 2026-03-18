@@ -21,7 +21,7 @@ resource "aws_instance" "bastion" {
 
   subnet_id = var.public_subnet_ids[0]
 
-  vpc_security_group_ids = [aws_security_group.bastion.id]
+  vpc_security_group_ids = [var.bastion_sg_id]
   key_name               = aws_key_pair.main.key_name
 
   # For direct SSH access
@@ -33,7 +33,6 @@ resource "aws_instance" "bastion" {
   }
 
   tags = {
-    Name        = "${var.project_name}-bastion-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-bastion-${var.environment}"
   }
 }

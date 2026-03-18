@@ -8,8 +8,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name        = "${var.project_name}-public-rt-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-public-rt-${var.environment}"
   }
 }
 
@@ -33,8 +32,7 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name        = "${var.project_name}-private-rt-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-private-rt-${var.environment}"
   }
 }
 
@@ -49,13 +47,22 @@ resource "aws_route_table_association" "app_private_2" {
   route_table_id = aws_route_table.private.id
 }
 
+# Route table for Database
+resource "aws_route_table" "db_isolated" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "${var.project_name}-db-isolated-rt-${var.environment}"
+  }
+}
+
 # DB Subnets
 resource "aws_route_table_association" "db_private_1" {
   subnet_id      = aws_subnet.db_private_1.id
-  route_table_id = aws_route_table.private.id
+  route_table_id = aws_route_table.db_isolated.id
 }
 
 resource "aws_route_table_association" "db_private_2" {
   subnet_id      = aws_subnet.db_private_2.id
-  route_table_id = aws_route_table.private.id
+  route_table_id = aws_route_table.db_isolated.id
 }

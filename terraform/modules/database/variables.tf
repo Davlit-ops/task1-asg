@@ -16,6 +16,7 @@ variable "db_private_subnet_ids" {
   type        = list(string)
 }
 
-variable "vpc_cidr" {
-  type = string
+variable "rds_sg_id" {
+  description = "Security Group ID for RDS passed from networking module"
+  type        = string
 }

@@ -12,3 +12,8 @@ variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
 }
+
+variable "app_port" {
+  description = "Port on which the application runs (needed for Security Groups)"
+  type        = number
+}

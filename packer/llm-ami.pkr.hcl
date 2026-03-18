@@ -65,6 +65,7 @@ build {
     "source.amazon-ebs.ubuntu"
   ]
 
+  # Systemd configuration
   provisioner "file" {
     source      = "open-webui.service"
     destination = "/tmp/open-webui.service"

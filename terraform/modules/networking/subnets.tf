@@ -11,8 +11,7 @@ resource "aws_subnet" "public_1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.project_name}-public-subnet-1-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-public-subnet-1-${var.environment}"
   }
 }
 
@@ -24,8 +23,7 @@ resource "aws_subnet" "public_2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.project_name}-public-subnet-2-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-public-subnet-2-${var.environment}"
   }
 }
 
@@ -36,8 +34,7 @@ resource "aws_subnet" "app_private_1" {
   availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
-    Name        = "${var.project_name}-app-private-subnet-1-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-app-private-subnet-1-${var.environment}"
   }
 }
 
@@ -48,8 +45,7 @@ resource "aws_subnet" "app_private_2" {
   availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = {
-    Name        = "${var.project_name}-app-private-subnet-2-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-app-private-subnet-2-${var.environment}"
   }
 }
 
@@ -60,8 +56,7 @@ resource "aws_subnet" "db_private_1" {
   availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
-    Name        = "${var.project_name}-db-private-subnet-1-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-db-private-subnet-1-${var.environment}"
   }
 }
 
@@ -72,7 +67,6 @@ resource "aws_subnet" "db_private_2" {
   availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = {
-    Name        = "${var.project_name}-db-private-subnet-2-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-db-private-subnet-2-${var.environment}"
   }
 }

@@ -4,28 +4,7 @@ resource "aws_db_subnet_group" "main" {
   subnet_ids = var.db_private_subnet_ids
 
   tags = {
-    Name        = "${var.project_name}-db-subnet-group-${var.environment}"
-    Environment = var.environment
-  }
-}
-
-# Security group for the database
-resource "aws_security_group" "rds" {
-  name        = "${var.project_name}-rds-sg-${var.environment}"
-  description = "Allow inbound traffic from LLM nodes on 5432"
-  vpc_id      = var.vpc_id
-
-  # From llm
-  ingress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr]
-  }
-
-  tags = {
-    Name        = "${var.project_name}-rds-sg-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-db-subnet-group-${var.environment}"
   }
 }
 
@@ -33,7 +12,7 @@ resource "aws_security_group" "rds" {
 resource "aws_db_instance" "main" {
   identifier        = "${var.project_name}-db-${var.environment}"
   allocated_storage = 20
-  storage_type      = "gp2"
+  storage_type      = "gp3"
   engine            = "postgres"
   engine_version    = "16"
   instance_class    = "db.t3.micro" # cheap / free tier
@@ -43,14 +22,17 @@ resource "aws_db_instance" "main" {
   password = random_password.db_password.result
 
   db_subnet_group_name   = aws_db_subnet_group.main.name
-  vpc_security_group_ids = [aws_security_group.rds.id]
+  vpc_security_group_ids = [var.rds_sg_id]
+
+  # Security
+  storage_encrypted          = true
+  auto_minor_version_upgrade = true
 
   skip_final_snapshot = true # skip backup
   multi_az            = false
   publicly_accessible = false
 
   tags = {
-    Name        = "${var.project_name}-db-${var.environment}"
-    Environment = var.environment
+    Name = "${var.project_name}-db-${var.environment}"
   }
 }

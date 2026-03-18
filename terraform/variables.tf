@@ -14,6 +14,11 @@ variable "environment" {
   description = "The environment (dev, staging, prod)"
   type        = string
   default     = "dev"
+
+  validation {
+    condition     = contains(["dev", "staging", "prod"], var.environment)
+    error_message = "The environment must be strictly 'dev', 'staging', or 'prod'."
+  }
 }
 
 variable "vpc_cidr" {
