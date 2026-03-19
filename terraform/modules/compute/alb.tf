@@ -24,7 +24,7 @@ resource "aws_lb_target_group" "app" {
   # STICKY SESSIONS
   stickiness {
     type            = "lb_cookie"
-    cookie_duration = 86400 # Прив'язуємо сесію на 1 день (у секундах)
+    cookie_duration = 86400 # for 1 day  in seconds
     enabled         = true
   }
 
