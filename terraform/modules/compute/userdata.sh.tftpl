@@ -7,7 +7,7 @@ echo "--- Configuring OpenWebUI Environment ---"
 # Environment variables for the database and the secret key
 cat <<EOF > /opt/open-webui/.env
 DATABASE_URL=postgresql://postgres:${db_password}@${db_endpoint}:5432/llmdb
-WEBUI_SECRET_KEY=my-super-secret-key-for-ha-cluster
+WEBUI_SECRET_KEY=${webui_secret_key}
 EOF
 
 # Set permissions

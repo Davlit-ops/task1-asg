@@ -9,6 +9,11 @@ data "aws_ami" "llm_image" {
   }
 }
 
+resource "random_password" "webui_secret" {
+  length  = 32
+  special = true
+}
+
 # Template for new LLM EC2
 resource "aws_launch_template" "app" {
   # Preventing problems with names
@@ -25,6 +30,7 @@ resource "aws_launch_template" "app" {
   user_data = base64encode(templatefile("${path.module}/userdata.sh.tftpl", {
     db_endpoint = var.db_endpoint
     db_password = var.db_password
+    webui_secret_key = random_password.webui_secret.result
   }))
 
   iam_instance_profile {
